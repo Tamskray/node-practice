@@ -1,0 +1,29 @@
+db.users.insertMany([
+    {name: "kapa", age: 21, number: 3213213},
+    {name: "ssss", age: 42, number: 12321},
+    {name: "cccc", age: 23, number: 3243214},
+    {name: "aaaa", age: 11, number: 23213},
+    {name: "bbbb", age: 22, number: 321321321},
+])
+
+db.users.update(
+    {name: "kapa"},
+    {
+        $set: {
+            posts: [
+                {title: "witcher 3", text: "the best game ever"},
+                {title: "devil may cry 5", text: "so great music"},
+            ]
+        }
+    }
+)
+
+db.users.findOne(
+    {
+        posts: {
+            $elemMatch: {
+                title: "witcher 3"
+            }
+        }
+    }
+)

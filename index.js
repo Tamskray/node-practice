@@ -1,26 +1,26 @@
-const PORT = process.env.PORT || 5000;
-const Application = require("./framework/Application");
-const userRouter = require("./src/user-router");
-const jsonParser = require("./framework/parseJson");
-const parseUrl = require("./framework/parseUrl");
-const mongoose = require("mongoose");
+import express, { json } from "express";
+import mongoose from "mongoose";
+import postsRouter from "./PostsRouter.js";
+import fileUpload from "express-fileupload";
 
-const app = new Application();
+const PORT = 5000;
+const DB_URL =
+  "mongodb+srv://user:user@cluster0.z8lqtqz.mongodb.net/?retryWrites=true&w=majority";
 
-app.use(jsonParser);
-app.use(parseUrl("http://localhost:5000"));
+const app = express();
 
-app.addRouter(userRouter);
+app.use(express.json());
+app.use(express.static("static"));
+app.use(fileUpload({}));
+app.use("/api", postsRouter);
 
-const start = async () => {
+const startApp = async () => {
   try {
-    await mongoose.connect(
-      "mongodb+srv://user:123@cluster0.uqbmwky.mongodb.net/?retryWrites=true&w=majority"
-    );
-    app.listen(PORT, () => console.log(`Server started on PORT ${PORT}`));
+    await mongoose.connect(DB_URL);
+    app.listen(PORT, () => console.log("Server started on port " + PORT));
   } catch (e) {
     console.log(e);
   }
 };
 
-start();
+startApp();

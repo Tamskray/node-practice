@@ -74,6 +74,8 @@ class AuthController {
 
 export default new AuthController();
 
+// this is just a check
+
 // bad code but work :) --> save to db roles
 // const userRole = new Role();
 // const adminRole = new Role({ value: "ADMIN" });

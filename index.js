@@ -1,26 +1,25 @@
+import express, { json } from "express";
+import mongoose from "mongoose";
+import authRouter from "./authRouter.js";
+
 const PORT = process.env.PORT || 5000;
-const Application = require("./framework/Application");
-const userRouter = require("./src/user-router");
-const jsonParser = require("./framework/parseJson");
-const parseUrl = require("./framework/parseUrl");
-const mongoose = require("mongoose");
+const DB_URL =
+  "mongodb+srv://user:user@cluster0.z8lqtqz.mongodb.net/?retryWrites=true&w=majority";
 
-const app = new Application();
+const app = express();
 
-app.use(jsonParser);
-app.use(parseUrl("http://localhost:5000"));
+app.use(express.json());
+app.use("/auth", authRouter);
+// app.use(express.static("static"));
+// app.use(fileUpload({}));
 
-app.addRouter(userRouter);
-
-const start = async () => {
+const startApp = async () => {
   try {
-    await mongoose.connect(
-      "mongodb+srv://user:123@cluster0.uqbmwky.mongodb.net/?retryWrites=true&w=majority"
-    );
-    app.listen(PORT, () => console.log(`Server started on PORT ${PORT}`));
+    await mongoose.connect(DB_URL);
+    app.listen(PORT, () => console.log("Server started on port " + PORT));
   } catch (e) {
     console.log(e);
   }
 };
 
-start();
+startApp();

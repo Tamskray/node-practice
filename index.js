@@ -24,3 +24,5 @@ const start = async () => {
 };
 
 start();
+
+// its just a check

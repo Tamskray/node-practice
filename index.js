@@ -1,18 +1,17 @@
 import express, { json } from "express";
 import mongoose from "mongoose";
-import postsRouter from "./PostsRouter.js";
-import fileUpload from "express-fileupload";
+import authRouter from "./authRouter.js";
 
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 const DB_URL =
   "mongodb+srv://user:user@cluster0.z8lqtqz.mongodb.net/?retryWrites=true&w=majority";
 
 const app = express();
 
 app.use(express.json());
-app.use(express.static("static"));
-app.use(fileUpload({}));
-app.use("/api", postsRouter);
+app.use("/auth", authRouter);
+// app.use(express.static("static"));
+// app.use(fileUpload({}));
 
 const startApp = async () => {
   try {
